@@ -1,5 +1,5 @@
 # 工作流名称
-name: Java CI with Maven (Build Package)
+name: Maven Build
 
 # 触发工作流的事件
 on:
@@ -36,13 +36,13 @@ jobs:
       # -B: Batch mode，非交互模式，适合 CI 环境
       # package: Maven 的打包阶段
       # --file pom.xml: 显式指定 pom 文件（通常是根目录，可以省略，但写上更明确）
-      run: mvn clean install -nsu -Prelease -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+      run: mvn clean install -nsu -Pstaging -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
 
     # 可选步骤：上传构建产物 (例如 JAR/WAR 文件)
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: app-package # 定义产物的名称
+        name: package # 定义产物的名称
         # 指定要上传的文件路径，通常在 target 目录下
         # 根据你的项目实际情况修改路径和文件类型 (*.jar, *.war 等)
-        path: dolphinscheduler-dist/target/*.tar.gz
+        path: dolphinscheduler-dist/target/*-bin.tar.gz
